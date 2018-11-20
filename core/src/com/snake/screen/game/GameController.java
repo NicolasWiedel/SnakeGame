@@ -2,8 +2,10 @@ package com.snake.screen.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Logger;
 import com.snake.config.GameConfig;
+import com.snake.entity.Coin;
 import com.snake.entity.Direction;
 import com.snake.entity.SnakeHead;
 
@@ -15,12 +17,14 @@ public class GameController {
     // == attributes ==
     private SnakeHead head;
     private float timer;
+    private Coin coin;
 
     // == contructoe ==
 
 
     public GameController() {
         head = new SnakeHead();
+        coin = new Coin();
     }
 
     // == public methods ==
@@ -34,10 +38,16 @@ public class GameController {
 
             checkOutOfBounds();
         }
+
+        spawnCoin();
     }
 
     public SnakeHead getHead() {
         return head;
+    }
+
+    public Coin getCoin(){
+        return coin;
     }
 
     // == private methods ==
@@ -73,6 +83,16 @@ public class GameController {
             head.setY(0);
         } else if(head.getY() < 0){
             head.setY(GameConfig.WORLD_HEIGHT - GameConfig.SNAKE_SIZE);
+        }
+    }
+
+    private void spawnCoin(){
+        if(!coin.isAvailable()){
+            float coinX = MathUtils.random((int)(GameConfig.WORLD_WIDTH - GameConfig.COIN_SIZE));
+            float coinY = MathUtils.random((int)(GameConfig.WORLD_HEIGHT - GameConfig.COIN_SIZE));
+            coin.setAvailable(true);
+
+            coin.setPosition(coinX, coinY);
         }
     }
 }

@@ -2,11 +2,14 @@ package com.snake.screen.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Logger;
 import com.snake.config.GameConfig;
 import com.snake.entity.Coin;
 import com.snake.entity.Direction;
+import com.snake.entity.Snake;
 import com.snake.entity.SnakeHead;
 
 public class GameController {
@@ -15,7 +18,7 @@ public class GameController {
     private static final Logger log = new Logger(GameController.class.getSimpleName());
 
     // == attributes ==
-    private SnakeHead head;
+    private Snake snake;
     private float timer;
     private Coin coin;
 
@@ -23,27 +26,29 @@ public class GameController {
 
 
     public GameController() {
-        head = new SnakeHead();
+        snake = new Snake();
         coin = new Coin();
     }
 
     // == public methods ==
     public void update(float delta){
         queryInput();
+        queryDebugInput();
 
         timer += delta;
         if(timer >= GameConfig.MOVE_TIME){
             timer = 0;
-            head.move();
+            snake.move();
 
             checkOutOfBounds();
+            checkCollision();
         }
 
         spawnCoin();
     }
 
-    public SnakeHead getHead() {
-        return head;
+    public Snake getSnake() {
+        return snake;
     }
 
     public Coin getCoin(){
@@ -58,20 +63,21 @@ public class GameController {
         boolean downPressed = Gdx.input.isKeyPressed(Input.Keys.DOWN);
 
         if(leftPressed){
-            head.setDirection(Direction.LEFT);
+            snake.setDirection(Direction.LEFT);
         }
         if(rightPressed){
-            head.setDirection(Direction.RIGHT);
+            snake.setDirection(Direction.RIGHT);
         }
         if(upPressed){
-            head.setDirection(Direction.UP);
+            snake.setDirection(Direction.UP);
         }
         if(downPressed){
-            head.setDirection(Direction.DOWN);
+            snake.setDirection(Direction.DOWN);
         }
     }
 
     private void checkOutOfBounds(){
+        SnakeHead head = snake.getHead();
         // check x bounds left/right
         if(head.getX() >= GameConfig.WORLD_WIDTH){
             head.setX(0);
@@ -93,6 +99,26 @@ public class GameController {
             coin.setAvailable(true);
 
             coin.setPosition(coinX, coinY);
+        }
+    }
+
+    private void checkCollision(){
+        // head - coin -collision
+        SnakeHead head = snake.getHead();
+        Rectangle headBound = head.getBounds();
+        Rectangle coinBounds = coin.getBounds();
+
+        boolean overlaps = Intersector.overlaps(headBound, coinBounds);
+
+        if(coin.isAvailable() &&overlaps){
+            snake.insertBodyParts();
+            coin.setAvailable(false);
+        }
+    }
+
+    private void queryDebugInput(){
+        if(Gdx.input.isKeyPressed(Input.Keys.PLUS)){
+            snake.insertBodyParts();
         }
     }
 }

@@ -11,7 +11,9 @@ import com.snake.config.GameConfig;
 import com.jga.snake.util.debug.DebugCameraController;
 import com.jga.snake.util.GdxUtils;
 import com.jga.snake.util.ViewportUtils;
+import com.snake.entity.BodyPart;
 import com.snake.entity.Coin;
+import com.snake.entity.Snake;
 import com.snake.entity.SnakeHead;
 
 public class GameRenderer implements Disposable {
@@ -82,9 +84,16 @@ public class GameRenderer implements Disposable {
     private void drawDebug(){
         renderer.setColor(Color.GREEN);
 
-        SnakeHead head = controller.getHead();
+        Snake snake = controller.getSnake();
+
+        SnakeHead head = snake.getHead();
         Rectangle headBounds = head.getBounds();
         renderer.rect(headBounds.x, headBounds.y, headBounds.width, headBounds.height);
+
+        for(BodyPart bodyPart: snake.getBodyParts()){
+            Rectangle bodyPartBounds = bodyPart.getBounds();
+            renderer.rect(bodyPartBounds.x, bodyPartBounds.y, bodyPartBounds.width, bodyPartBounds.height);
+        }
 
         renderer.setColor(Color.BLUE);
         Coin coin = controller.getCoin();

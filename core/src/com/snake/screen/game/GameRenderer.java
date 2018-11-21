@@ -72,7 +72,7 @@ public class GameRenderer implements Disposable {
 
         Color oldColor = new Color(renderer.getColor());
         renderer.setProjectionMatrix(camera.combined);
-        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         drawDebug();
 
@@ -82,18 +82,19 @@ public class GameRenderer implements Disposable {
 
     // == private methods ==
     private void drawDebug(){
-        renderer.setColor(Color.GREEN);
 
         Snake snake = controller.getSnake();
 
-        SnakeHead head = snake.getHead();
-        Rectangle headBounds = head.getBounds();
-        renderer.rect(headBounds.x, headBounds.y, headBounds.width, headBounds.height);
-
+        renderer.setColor(Color.YELLOW);
         for(BodyPart bodyPart: snake.getBodyParts()){
             Rectangle bodyPartBounds = bodyPart.getBounds();
             renderer.rect(bodyPartBounds.x, bodyPartBounds.y, bodyPartBounds.width, bodyPartBounds.height);
         }
+
+        renderer.setColor(Color.GREEN);
+        SnakeHead head = snake.getHead();
+        Rectangle headBounds = head.getBounds();
+        renderer.rect(headBounds.x, headBounds.y, headBounds.width, headBounds.height);
 
         renderer.setColor(Color.BLUE);
         Coin coin = controller.getCoin();

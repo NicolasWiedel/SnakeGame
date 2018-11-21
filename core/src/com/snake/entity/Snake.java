@@ -40,8 +40,11 @@ public class Snake {
         updateBodyParts();
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    public void setDirection(Direction newDirection) {
+
+        if(!direction.isOpposite(newDirection) || bodyParts.size == 0) {
+            direction = newDirection;
+        }
     }
 
     public SnakeHead getHead() {
@@ -56,6 +59,12 @@ public class Snake {
         BodyPart bodyPart = new BodyPart();
         bodyPart.setPosition(head.getX(), head.getY());
         bodyParts.insert(0, bodyPart);
+    }
+
+    public void reset(){
+        bodyParts.clear();
+        direction = Direction.RIGHT;
+        head.setPosition(0, 0);
     }
 
     // == private methods ==

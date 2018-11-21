@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Logger;
+import com.snake.common.GameManager;
 import com.snake.config.GameConfig;
 import com.snake.entity.BodyPart;
 import com.snake.entity.Coin;
@@ -33,19 +34,23 @@ public class GameController {
 
     // == public methods ==
     public void update(float delta){
-        queryInput();
-        queryDebugInput();
+        if(GameManager.INSTANCE.isPlaying()) {
+            queryInput();
+            queryDebugInput();
 
-        timer += delta;
-        if(timer >= GameConfig.MOVE_TIME){
-            timer = 0;
-            snake.move();
+            timer += delta;
+            if (timer >= GameConfig.MOVE_TIME) {
+                timer = 0;
+                snake.move();
 
-            checkOutOfBounds();
-            checkCollision();
+                checkOutOfBounds();
+                checkCollision();
+            }
+
+            spawnCoin();
+        }else{
+            checkForRestart();
         }
-
-        spawnCoin();
     }
 
     public Snake getSnake() {
@@ -125,13 +130,27 @@ public class GameController {
             Rectangle bodyPartBounds = bodyPart.getBounds();
             if(Intersector.overlaps(bodyPartBounds, headBound)){
                 log.debug("collision with bodyPart!!");
+                GameManager.INSTANCE.setGameOver();
             }
         }
     }
 
     private void queryDebugInput(){
-        if(Gdx.input.isKeyPressed(Input.Keys.PLUS)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)){
             snake.insertBodyParts();
         }
+    }
+
+    private  void checkForRestart(){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            restart();
+        }
+    }
+
+    private void restart(){
+        GameManager.INSTANCE.setPlaying();
+        snake.reset();
+        coin.setAvailable(false);
+        timer = 0;
     }
 }

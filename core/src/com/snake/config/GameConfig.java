@@ -5,6 +5,9 @@ public class GameConfig {
     public static final float WIDTH = 800f; // pixels
     public static final float HEIGHT = 480f; // pixels
 
+    public static final float HUD_WIDTH = 800f; // world units
+    public static final float HUD_HEIGHT = 480f; // world units
+
     public static final float WORLD_WIDTH = 25f; // world units
     public static final float WORLD_HEIGHT = 15; // world units
 

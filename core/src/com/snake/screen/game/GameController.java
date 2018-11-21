@@ -148,7 +148,7 @@ public class GameController {
     }
 
     private void restart(){
-        GameManager.INSTANCE.setPlaying();
+        GameManager.INSTANCE.reset();
         snake.reset();
         coin.setAvailable(false);
         timer = 0;

@@ -16,7 +16,7 @@ public class LoadingScreen extends ScreenAdapter {
 
     // == constants ==
     private static final float PROGRESS_BAR_WIDTH = GameConfig.HUD_WIDTH / 2;
-    private static final float PROGRESS_BAR_HEIGHT = 60f;
+    private static final float PROGRESS_BAR_HEIGHT = 30f;
 
     // == attributes ==
     private final SimpleSnakeGame game;
@@ -91,8 +91,8 @@ public class LoadingScreen extends ScreenAdapter {
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         renderer.rect(
-                GameConfig.HUD_WIDTH - PROGRESS_BAR_WIDTH / 2f,
-                GameConfig.HUD_HEIGHT - PROGRESS_BAR_HEIGHT / 2f,
+                (GameConfig.HUD_WIDTH - PROGRESS_BAR_WIDTH) / 2f,
+                (GameConfig.HUD_HEIGHT - PROGRESS_BAR_HEIGHT) / 2f,
                 progress * PROGRESS_BAR_WIDTH,
                 PROGRESS_BAR_HEIGHT
         );

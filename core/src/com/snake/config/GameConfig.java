@@ -2,6 +2,9 @@ package com.snake.config;
 
 public class GameConfig {
 
+    // == constants ==
+    public static final float Y_OFFSET = 2f;
+
     public static final float WIDTH = 800f; // pixels
     public static final float HEIGHT = 480f; // pixels
 
@@ -19,6 +22,9 @@ public class GameConfig {
     public  static final float SNAKE_SPEED = 1f;
 
     public static final float COIN_SIZE = 1f;
+    public static final int COIN_SCORE = 20;
+
+    public static final float MAX_Y= WORLD_HEIGHT - Y_OFFSET;
 
     private GameConfig(){
 

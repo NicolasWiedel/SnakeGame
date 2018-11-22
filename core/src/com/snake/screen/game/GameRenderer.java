@@ -88,7 +88,7 @@ public class GameRenderer implements Disposable {
 
         renderGamePlay();
         renderHud();
-        renderDebug();
+//        renderDebug();
     }
 
     public void resize(int width, int height){

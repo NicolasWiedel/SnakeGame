@@ -11,6 +11,7 @@ import com.snake.assets.AssetDescriptors;
 import com.snake.config.GameConfig;
 import com.jga.snake.util.GdxUtils;
 import com.snake.screen.game.GameScreen;
+import com.snake.screen.menu.MenuScreen;
 
 public class LoadingScreen extends ScreenAdapter {
 
@@ -54,7 +55,7 @@ public class LoadingScreen extends ScreenAdapter {
         draw();
 
         if (changeScreen){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new MenuScreen(game));
         }
     }
 

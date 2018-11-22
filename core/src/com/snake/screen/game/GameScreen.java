@@ -3,6 +3,8 @@ package com.snake.screen.game;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.snake.SimpleSnakeGame;
+import com.snake.common.GameManager;
+import com.snake.screen.menu.MenuScreen;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -30,6 +32,10 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         controller.update(delta);
         renderer.render(delta);
+
+        if(GameManager.INSTANCE.isGameOver()){
+            game.setScreen(new MenuScreen(game));
+        }
     }
 
     @Override

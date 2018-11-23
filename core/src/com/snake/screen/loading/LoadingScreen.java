@@ -1,6 +1,7 @@
 package com.snake.screen.loading;
 
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -42,9 +43,11 @@ public class LoadingScreen extends ScreenAdapter {
         viewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, camera);
         renderer = new ShapeRenderer();
 
-        assetManager .load(AssetDescriptors.UI_FONT);
+        assetManager.load(AssetDescriptors.UI_FONT);
         assetManager.load(AssetDescriptors.GAME_PLAY);
         assetManager.load(AssetDescriptors.UI_SKIN);
+        assetManager.load(AssetDescriptors.COIN_SOUND);
+        assetManager.load(AssetDescriptors.LOOSE_SOUND);
     }
 
     @Override

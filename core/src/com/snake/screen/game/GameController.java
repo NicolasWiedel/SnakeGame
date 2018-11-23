@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Logger;
+import com.snake.collision.CollisionListener;
 import com.snake.common.GameManager;
 import com.snake.config.GameConfig;
 import com.snake.entity.BodyPart;
@@ -20,6 +21,8 @@ public class GameController {
     private static final Logger log = new Logger(GameController.class.getSimpleName(), Logger.DEBUG);
 
     // == attributes ==
+    private final CollisionListener listener;
+
     private Snake snake;
     private float timer;
     private Coin coin;
@@ -27,7 +30,8 @@ public class GameController {
     // == contructoe ==
 
 
-    public GameController() {
+    public GameController(CollisionListener listener) {
+        this.listener = listener;
         snake = new Snake();
         coin = new Coin();
 
@@ -121,6 +125,7 @@ public class GameController {
         boolean overlaps = Intersector.overlaps(headBound, coinBounds);
 
         if(coin.isAvailable() &&overlaps){
+            listener.hitCoin();
             snake.insertBodyParts();
             coin.setAvailable(false);
             GameManager.INSTANCE.incrementScore(GameConfig.COIN_SCORE);
@@ -134,6 +139,7 @@ public class GameController {
             }
             Rectangle bodyPartBounds = bodyPart.getBounds();
             if(Intersector.overlaps(bodyPartBounds, headBound)){
+                listener.loose();
                 GameManager.INSTANCE.updateHighScore();
                 GameManager.INSTANCE.setGameOver();
             }
